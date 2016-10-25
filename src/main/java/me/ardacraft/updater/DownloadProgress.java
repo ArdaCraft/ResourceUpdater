@@ -10,10 +10,11 @@ import java.awt.*;
  */
 public class DownloadProgress implements DownloadCallback {
 
-    private JFrame frame;
+    private final String name;
     private final JProgressBar progressBar = new JProgressBar();
 
     public DownloadProgress(String name) {
+        this.name = name;
         progressBar.setPreferredSize(new Dimension(350, 45));
         progressBar.setMinimum(0);
         progressBar.setMaximum(100);
@@ -21,10 +22,10 @@ public class DownloadProgress implements DownloadCallback {
 
         new Thread() {
             public void run() {
-                DownloadProgress.this.frame = new JFrame();
+                JFrame frame = new JFrame();
                 frame.add(progressBar);
                 frame.pack();
-                frame.setTitle("Downloading " + name + "...");
+                frame.setTitle("RPUpdater");
                 frame.setLocationRelativeTo(null);
                 frame.setResizable(false);
                 frame.setVisible(true);
@@ -41,6 +42,6 @@ public class DownloadProgress implements DownloadCallback {
 
     @Override
     public void complete() {
-        frame.dispose();
+        progressBar.setString("Download Complete: " + name);
     }
 }

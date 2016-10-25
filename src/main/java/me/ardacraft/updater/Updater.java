@@ -62,11 +62,19 @@ public class Updater {
         }
         new Thread() {
             public void run() {
+                try {
+                    Thread.sleep(TimeUnit.SECONDS.toMillis(properties.startup_delay));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
                 int error = 3;
+
                 while (true) {
                     try {
                         Updater.this.run();
                         Thread.sleep(TimeUnit.MINUTES.toMillis(properties.interval_mins));
+                        error = 3;
                     } catch (Exception e) {
                         if (error-- <= 0) {
                             e.printStackTrace();

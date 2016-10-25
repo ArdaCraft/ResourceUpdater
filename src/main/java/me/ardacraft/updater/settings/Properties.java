@@ -10,6 +10,7 @@ public class Properties {
     public String api = "";
     public String user = "";
     public String repo = "";
+    public int startup_delay = 0;
     public int interval_mins = 0;
 
 
