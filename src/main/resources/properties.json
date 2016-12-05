@@ -1,7 +1,0 @@
-{
-  "api": "https://api.github.com",
-  "user": "ArdaCraft",
-  "repo": "ACResourcepack",
-  "startup_delay": 15,
-  "interval_mins": 30
-}

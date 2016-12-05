@@ -1,12 +1,17 @@
 package me.ardacraft.updater.launch;
 
-import me.ardacraft.updater.Updater;
-import me.ardacraft.updater.Utils;
+import me.ardacraft.updater.ProgressUI;
+import me.dags.ghrelease.Config;
+import me.dags.ghrelease.download.DownloadManager;
 import net.minecraft.launchwrapper.ITweaker;
 import net.minecraft.launchwrapper.LaunchClassLoader;
+import org.lwjgl.Sys;
 
+import javax.net.ssl.HttpsURLConnection;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -14,16 +19,24 @@ import java.util.List;
  */
 public class UpdaterTweaker implements ITweaker {
 
-    private final Updater downloader = new Updater();
-
     @Override
     public void acceptOptions(List<String> list, File gameDir, File assetsDir, String s) {
         try {
-            downloader.init(gameDir);
-            downloader.launch();
+            URL url = new URL("https://ardacraft.github.io/modpack/update/config.json");
+            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+            try (InputStream inputStream = connection.getInputStream()) {
+                Config config = Config.read(inputStream);
+                if (config != null) {
+                    DownloadManager manager = new DownloadManager(gameDir.toPath(), new ProgressUI());
+                    manager.processConfig(config);
+                    manager.download();
+                }
+            }
+            connection.disconnect();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("ArdaCraft update checks complete!");
     }
 
     @Override
