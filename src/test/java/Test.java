@@ -16,6 +16,10 @@ public class Test {
 
     public static void main(String[] args) {
         final ProgressUI progressUI = new ProgressUI();
+        if (!progressUI.isVisible()) {
+            progressUI.setVisible(true);
+            return;
+        }
         try {
             URL url = new URL("https://ardacraft.github.io/modpack/update/config.json");
             HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
