@@ -5,11 +5,9 @@ import me.dags.ghrelease.Config;
 import me.dags.ghrelease.download.DownloadManager;
 import net.minecraft.launchwrapper.ITweaker;
 import net.minecraft.launchwrapper.LaunchClassLoader;
-import org.lwjgl.Sys;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
@@ -33,8 +31,8 @@ public class UpdaterTweaker implements ITweaker {
                 }
             }
             connection.disconnect();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Throwable t) {
+            t.printStackTrace();
         }
         System.out.println("ArdaCraft update checks complete!");
     }

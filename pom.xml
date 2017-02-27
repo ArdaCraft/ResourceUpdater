@@ -6,7 +6,7 @@
 
     <groupId>me.ardacraft</groupId>
     <artifactId>ACResourceUpdater</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.2-SNAPSHOT</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -77,7 +77,7 @@
         <dependency>
             <groupId>com.github.dags-</groupId>
             <artifactId>ghreleases</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>1.0.2-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>

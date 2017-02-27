@@ -19,7 +19,7 @@ public class ProgressUI extends JFrame implements ProgressWatcher {
 
     public ProgressUI() {
         try {
-            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
             e.printStackTrace();
         }
