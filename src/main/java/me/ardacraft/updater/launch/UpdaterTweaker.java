@@ -24,7 +24,7 @@ public class UpdaterTweaker implements ITweaker {
                 while (true) {
                     Thread.sleep(5000L);
                     try {
-                        URL url = new URL("https://ardacraft.github.io/modpack/update/config.json");
+                        URL url = new URL("https://ardacraft.github.io/modpacks/resources.json");
                         HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
                         try (InputStream inputStream = connection.getInputStream()) {
                             Config config = Config.read(inputStream);
