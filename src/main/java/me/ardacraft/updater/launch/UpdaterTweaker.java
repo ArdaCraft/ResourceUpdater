@@ -1,6 +1,5 @@
 package me.ardacraft.updater.launch;
 
-import me.ardacraft.updater.ProgressUI;
 import me.dags.ghrelease.Config;
 import me.dags.ghrelease.download.DownloadManager;
 import net.minecraft.launchwrapper.ITweaker;
@@ -11,6 +10,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author dags <dags@dags.me>
@@ -19,22 +19,31 @@ public class UpdaterTweaker implements ITweaker {
 
     @Override
     public void acceptOptions(List<String> list, File gameDir, File assetsDir, String s) {
-        try {
-            URL url = new URL("https://ardacraft.github.io/modpack/update/config.json");
-            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-            try (InputStream inputStream = connection.getInputStream()) {
-                Config config = Config.read(inputStream);
-                if (config != null) {
-                    DownloadManager manager = new DownloadManager(gameDir.toPath(), new ProgressUI());
-                    manager.processConfig(config);
-                    manager.download();
+        new Thread(() -> {
+            try {
+                while (true) {
+                    Thread.sleep(5000L);
+                    try {
+                        URL url = new URL("https://ardacraft.github.io/modpack/update/config.json");
+                        HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+                        try (InputStream inputStream = connection.getInputStream()) {
+                            Config config = Config.read(inputStream);
+                            if (config != null) {
+                                DownloadManager manager = new DownloadManager(gameDir.toPath(), new Updater());
+                                manager.processConfig(config);
+                                manager.download();
+                            }
+                        }
+                        connection.disconnect();
+                    } catch (Throwable t) {
+                        t.printStackTrace();
+                    }
+                    Thread.sleep(TimeUnit.MINUTES.toMillis(60L));
                 }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-            connection.disconnect();
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
-        System.out.println("ArdaCraft update checks complete!");
+        }).start();
     }
 
     @Override
