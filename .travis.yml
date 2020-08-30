@@ -1,7 +1,10 @@
+dist: trusty
 language: java
+os: linux
 jdk:
   - openjdk8
   - oraclejdk8
+install: true
 script:
   - mvn install
 notifications:
